@@ -1,6 +1,6 @@
 /**
- * @file    usb.h
- * @brief   USB Header
+ * @file    usbd_cls.h
+ * @brief   USB device CLS header
  *
  * DAPLink Interface Firmware
  * Copyright (c) 2009-2016, ARM Limited, All Rights Reserved
@@ -19,27 +19,21 @@
  * limitations under the License.
  */
 
-#ifndef __USB_H__
-#define __USB_H__
+#ifndef __USBD_CLS_H__
+#define __USBD_CLS_H__
 
-/* General USB header files                                                   */
-#include "usb_def.h"
-#include "usb_cdc.h"
-#include "usb_hid.h"
-#include "usb_msc.h"
 
-/* USB Device header files                                                    */
-#include "usbd_core.h"
-#include "usbd_core_cdc.h"
-#include "usbd_core_hid.h"
-#include "usbd_core_msc.h"
+/*--------------------------- Event handling routines ------------------------*/
 
-#include "usbd_desc.h"
-#include "usbd_event.h"
-#include "usbd_cdc_acm.h"
-#include "usbd_hid.h"
-#include "usbd_msc.h"
-#include "usbd_hw.h"
-#include "usbd_cls.h"
+extern void USBD_CLS_SOF_Event(void);
 
-#endif  /* __USB_H__ */
+extern void USBD_CLS_EP_BULKIN_Event(U32 event);
+extern void USBD_CLS_EP_BULKOUT_Event(U32 event);
+extern void USBD_CLS_EP_BULK_Event(U32 event);
+
+extern void USBD_RTX_CLS_EP_BULKIN_Event(void);
+extern void USBD_RTX_CLS_EP_BULKOUT_Event(void);
+extern void USBD_RTX_CLS_EP_BULK_Event(void);
+
+
+#endif  /* __USBD_CDC_H__ */

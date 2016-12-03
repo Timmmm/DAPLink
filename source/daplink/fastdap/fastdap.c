@@ -1,6 +1,6 @@
 /**
- * @file    usb.h
- * @brief   USB Header
+ * @file    usbd_vendor.c
+ * @brief   Vendor Class driver, used for faster DAPlink
  *
  * DAPLink Interface Firmware
  * Copyright (c) 2009-2016, ARM Limited, All Rights Reserved
@@ -19,27 +19,22 @@
  * limitations under the License.
  */
 
-#ifndef __USB_H__
-#define __USB_H__
+#include "string.h"
+ 
+#include "RTL.h"
+#include "rl_usb.h"
+#include "usb_for_lib.h"
+#include "util.h"
+#include "macro.h"
 
-/* General USB header files                                                   */
-#include "usb_def.h"
-#include "usb_cdc.h"
-#include "usb_hid.h"
-#include "usb_msc.h"
+/* Dummy Weak Functions that need to be provided by user */
+void usbd_cls_init()
+{
 
-/* USB Device header files                                                    */
-#include "usbd_core.h"
-#include "usbd_core_cdc.h"
-#include "usbd_core_hid.h"
-#include "usbd_core_msc.h"
+}
 
-#include "usbd_desc.h"
-#include "usbd_event.h"
-#include "usbd_cdc_acm.h"
-#include "usbd_hid.h"
-#include "usbd_msc.h"
-#include "usbd_hw.h"
-#include "usbd_cls.h"
 
-#endif  /* __USB_H__ */
+void USBD_CLS_SOF_Event()
+{
+	// Start of Frame event? This should be called once every millisecond on Full Speed USB.
+}

@@ -2009,6 +2009,43 @@ const U8 USBD_DeviceQualifier_HS[] = { 0 };
   WBVAL(USBD_CDC_ACM_HS_WMAXPACKETSIZE1),/* wMaxPacketSize */                                               \
   USBD_CDC_ACM_HS_BINTERVAL1,           /* bInterval */
 
+
+
+
+
+#define CLS_DESC                                                                                            \
+/* FastDAP interface, Alternate Setting 0, Vendor class interface descriptor*/                              \
+  USB_INTERFACE_DESC_SIZE,              /* bLength */                                                       \
+  USB_INTERFACE_DESCRIPTOR_TYPE,        /* bDescriptorType */                                               \
+  USBD_CLS_IF_NUM,                      /* bInterfaceNumber: Number of Interface */                         \
+  0x00,                                 /* bAlternateSetting: no alternate setting */                       \
+  0x02,                                 /* bNumEndpoints: two endpoints used */                             \
+  0xFF,                                 /* bInterfaceClass: Vendor Interface Class */                       \
+  0x00,                                 /* bInterfaceSubClass: no subclass available */                     \
+  0x00,                                 /* bInterfaceProtocol: no protocol used */                          \
+  USBD_CLS_IF_STR_NUM,                  /* iInterface */
+
+#define CLS_EP                          /* FastDAP endpoints */                                             \
+/* Endpoint, EP Bulk OUT */                                                                                 \
+  USB_ENDPOINT_DESC_SIZE,               /* bLength */                                                       \
+  USB_ENDPOINT_DESCRIPTOR_TYPE,         /* bDescriptorType */                                               \
+  USB_ENDPOINT_OUT(USBD_CLS_EP_BULKOUT),/* bEndpointAddress */                                              \
+  USB_ENDPOINT_TYPE_BULK,               /* bmAttributes */                                                  \
+  WBVAL(USBD_CLS_WMAXPACKETSIZE),       /* wMaxPacketSize */                                                \
+  0x00,                                 /* bInterval: ignore for Bulk transfer */                           \
+                                                                                                            \
+/* Endpoint, EP Bulk IN */                                                                                  \
+  USB_ENDPOINT_DESC_SIZE,               /* bLength */                                                       \
+  USB_ENDPOINT_DESCRIPTOR_TYPE,         /* bDescriptorType */                                               \
+  USB_ENDPOINT_IN(USBD_CLS_EP_BULKIN),  /* bEndpointAddress */                                              \
+  USB_ENDPOINT_TYPE_BULK,               /* bmAttributes */                                                  \
+  WBVAL(USBD_CLS_WMAXPACKETSIZE),       /* wMaxPacketSize */                                                \
+  0x00,                                 /* bInterval: ignore for Bulk transfer */
+
+
+
+
+
 /* USB Device Configuration Descriptor (for Full Speed) */
 /*   All Descriptors (Configuration, Interface, Endpoint, Class, Vendor) */
 __weak \
@@ -2054,6 +2091,11 @@ const U8 USBD_ConfigDescriptor[] = {
     CDC_ACM_EP_IF0
     CDC_ACM_DESC_IF1
     CDC_ACM_EP_IF1
+#endif
+
+#if (USBD_CLS_ENABLE)
+    CLS_DESC
+    CLS_EP
 #endif
 
     /* Terminator */                                                                                            \
