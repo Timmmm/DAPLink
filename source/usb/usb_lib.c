@@ -2303,6 +2303,9 @@ const struct {
 #if (USBD_MSC_ENABLE)
     USBD_STR_DEF(MSC_STRDESC);
 #endif
+#if (USBD_CLS_ENABLE)
+    USBD_STR_DEF(CLS_STRDESC);
+#endif
 } USBD_StringDescriptor
 = {
     { 4, USB_STRING_DESCRIPTOR_TYPE, USBD_STRDESC_LANGID },
@@ -2325,6 +2328,9 @@ const struct {
 #endif
 #if (USBD_MSC_ENABLE)
     USBD_STR_VAL(MSC_STRDESC),
+#endif
+#if (USBD_CLS_ENABLE)
+    USBD_STR_VAL(CLS_STRDESC),
 #endif
 };
 
