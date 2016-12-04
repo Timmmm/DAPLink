@@ -2254,12 +2254,12 @@ const U8 USBD_OtherSpeedConfigDescriptor_HS[] = {
     HID_EP
 #endif
 #endif
-
+/*
 #if (USBD_MSC_ENABLE)
     MSC_DESC
     MSC_EP
 #endif
-
+*/
     /* Terminator */
     0                                     /* bLength */
 };
