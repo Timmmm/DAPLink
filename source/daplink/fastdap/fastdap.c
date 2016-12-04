@@ -37,7 +37,7 @@ void usbd_cls_init()
 
 void USBD_CLS_SOF_Event()
 {
-	// Start of Frame event? This should be called once every millisecond on Full Speed USB.
+	// Start of Frame event. We don't need to do anything really.	
 }
 
 // # How USB works in this crazy macro-riddled library.
@@ -88,27 +88,27 @@ void USBD_CLS_SOF_Event()
 // CMSIS-DAP task
 /*__task void cls_process(void *argv)
 {
-    while (1) {
-        // Process DAP Command
-        os_sem_wait(&proc_sem, 0xFFFF);
-        DAP_ProcessCommand(USB_Request[proc_idx], temp_buf);
-        memcpy(USB_Request[proc_idx], temp_buf, DAP_PACKET_SIZE);
-        proc_idx = (proc_idx + 1) % DAP_PACKET_COUNT;
-        os_sem_send(&send_sem);
-        // Send input report if USB is idle
-        os_mut_wait(&hid_mutex, 0xFFFF);
+	while (1) {
+		// Process DAP Command
+		os_sem_wait(&proc_sem, 0xFFFF);
+		DAP_ProcessCommand(USB_Request[proc_idx], temp_buf);
+		memcpy(USB_Request[proc_idx], temp_buf, DAP_PACKET_SIZE);
+		proc_idx = (proc_idx + 1) % DAP_PACKET_COUNT;
+		os_sem_send(&send_sem);
+		// Send input report if USB is idle
+		os_mut_wait(&hid_mutex, 0xFFFF);
 
-        if (USB_ResponseIdle) {
-            USB_ResponseIdle = 0;
-            os_sem_wait(&send_sem, 0xFFFF);
-            usbd_hid_get_report_trigger(0, USB_Request[send_idx], DAP_PACKET_SIZE);
-            send_idx = (send_idx + 1) % DAP_PACKET_COUNT;
-            os_sem_send(&free_sem);
-        }
+		if (USB_ResponseIdle) {
+			USB_ResponseIdle = 0;
+			os_sem_wait(&send_sem, 0xFFFF);
+			usbd_hid_get_report_trigger(0, USB_Request[send_idx], DAP_PACKET_SIZE);
+			send_idx = (send_idx + 1) % DAP_PACKET_COUNT;
+			os_sem_send(&free_sem);
+		}
 
-        os_mut_release(&hid_mutex);
-        main_blink_hid_led(MAIN_LED_OFF);
-    }
+		os_mut_release(&hid_mutex);
+		main_blink_hid_led(MAIN_LED_OFF);
+	}
 }*/
 
 
@@ -146,7 +146,7 @@ void USBD_CLS_BulkOut(void)
 
 void USBD_CLS_EP_BULKIN_Event(U32 event)
 {
-    USBD_CLS_BulkIn();
+	USBD_CLS_BulkIn();
 }
 
 
@@ -158,8 +158,8 @@ void USBD_CLS_EP_BULKIN_Event(U32 event)
 
 void USBD_CLS_EP_BULKOUT_Event(U32 event)
 {
-    BulkLen = USBD_ReadEP(usbd_cls_ep_bulkout, USBD_CLS_BulkBuf, USBD_CLS_BulkBufSize);
-    USBD_CLS_BulkOut();
+	BulkLen = USBD_ReadEP(usbd_cls_ep_bulkout, USBD_CLS_BulkBuf, USBD_CLS_BulkBufSize);
+	USBD_CLS_BulkOut();
 }
 
 
@@ -173,13 +173,13 @@ void USBD_CLS_EP_BULKOUT_Event(U32 event)
 
 void USBD_CLS_EP_BULK_Event(U32 event)
 {
-    if (event & USBD_EVT_OUT) {
-        USBD_CLS_EP_BULKOUT_Event(0);
-    }
+	if (event & USBD_EVT_OUT) {
+		USBD_CLS_EP_BULKOUT_Event(0);
+	}
 
-    if (event & USBD_EVT_IN) {
-        USBD_CLS_EP_BULKIN_Event(0);
-    }
+	if (event & USBD_EVT_IN) {
+		USBD_CLS_EP_BULKIN_Event(0);
+	}
 }
 
 
@@ -193,13 +193,13 @@ void USBD_CLS_EP_BULK_Event(U32 event)
 
 __task void USBD_RTX_CLS_EP_BULKIN_Event(void)
 {
-    for (;;) {
-        usbd_os_evt_wait_or(0xFFFF, 0xFFFF);
+	for (;;) {
+		usbd_os_evt_wait_or(0xFFFF, 0xFFFF);
 
-        if (usbd_os_evt_get() & USBD_EVT_IN) {
-            USBD_CLS_EP_BULKIN_Event(0);
-        }
-    }
+		if (usbd_os_evt_get() & USBD_EVT_IN) {
+			USBD_CLS_EP_BULKIN_Event(0);
+		}
+	}
 }
 
 
@@ -211,13 +211,13 @@ __task void USBD_RTX_CLS_EP_BULKIN_Event(void)
 
 __task void USBD_RTX_MSC_EP_BULKOUT_Event(void)
 {
-    for (;;) {
-        usbd_os_evt_wait_or(0xFFFF, 0xFFFF);
+	for (;;) {
+		usbd_os_evt_wait_or(0xFFFF, 0xFFFF);
 
-        if (usbd_os_evt_get() & USBD_EVT_OUT) {
-            USBD_CLS_EP_BULKOUT_Event(0);
-        }
-    }
+		if (usbd_os_evt_get() & USBD_EVT_OUT) {
+			USBD_CLS_EP_BULKOUT_Event(0);
+		}
+	}
 }
 
 
@@ -229,10 +229,10 @@ __task void USBD_RTX_MSC_EP_BULKOUT_Event(void)
 
 __task void USBD_RTX_CLS_EP_BULK_Event(void)
 {
-    for (;;) {
-        usbd_os_evt_wait_or(0xFFFF, 0xFFFF);
-        USBD_CLS_EP_BULK_Event(usbd_os_evt_get());
-    }
+	for (;;) {
+		usbd_os_evt_wait_or(0xFFFF, 0xFFFF);
+		USBD_CLS_EP_BULK_Event(usbd_os_evt_get());
+	}
 }
 #endif
 
