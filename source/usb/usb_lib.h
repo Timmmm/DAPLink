@@ -92,6 +92,13 @@ extern U8 USBD_CDC_ACM_SendBuf[];
 extern U8 USBD_CDC_ACM_ReceiveBuf[];
 extern U8 USBD_CDC_ACM_NotifyBuf[10];
 
+extern const U8 usbd_cls_if_num;
+extern const U8 usbd_cls_ep_bulkin;
+extern const U8 usbd_cls_ep_bulkout;
+extern const U16 usbd_cls_maxpacketsize[2];
+extern const U16 USBD_CLS_BulkBufSize;
+extern U8 USBD_CLS_BulkBuf[];
+
 extern void usbd_os_evt_set(U16 event_flags, U32 task);
 extern U16 usbd_os_evt_get(void);
 extern U32 usbd_os_evt_wait_or(U16 wait_flags, U16 timeout);
