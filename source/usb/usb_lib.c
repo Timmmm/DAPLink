@@ -1503,11 +1503,14 @@ void USBD_RTX_TaskInit(void)
                                           (USB_ENDPOINT_DESC_SIZE*(1+(USBD_HID_EP_INTOUT != 0))))
 #define USBD_HID_DESC_OFS                 (USB_CONFIGUARTION_DESC_SIZE + USB_INTERFACE_DESC_SIZE                                                + \
                                            USBD_MSC_ENABLE * USBD_MSC_DESC_LEN + USBD_CDC_ACM_ENABLE * USBD_CDC_ACM_DESC_LEN)
+																					 
+#define USBD_CLS_DESC_LEN                 (USB_INTERFACE_DESC_SIZE + 2*USB_ENDPOINT_DESC_SIZE)
 
 #define USBD_WTOTALLENGTH                 (USB_CONFIGUARTION_DESC_SIZE +                 \
                                            USBD_CDC_ACM_DESC_LEN * USBD_CDC_ACM_ENABLE + \
                                            USBD_HID_DESC_LEN     * USBD_HID_ENABLE     + \
-                                           USBD_MSC_DESC_LEN     * USBD_MSC_ENABLE)
+                                           USBD_MSC_DESC_LEN     * USBD_MSC_ENABLE     + \
+																					 USBD_CLS_DESC_LEN     * USBD_CLS_ENABLE)
 
 /*------------------------------------------------------------------------------
   Default HID Report Descriptor
@@ -2042,7 +2045,7 @@ const U8 USBD_DeviceQualifier_HS[] = { 0 };
   WBVAL(USBD_CLS_WMAXPACKETSIZE),       /* wMaxPacketSize */                                                \
   0x00,                                 /* bInterval: ignore for Bulk transfer */
 
-
+// TODO: CLS_EP_HS.
 
 
 
@@ -2157,7 +2160,12 @@ const U8 USBD_ConfigDescriptor_HS[] = {
     CDC_ACM_DESC_IF1
     CDC_ACM_EP_IF1_HS
 #endif
-
+/* TODO: CLS_EP_HS
+#if (USBD_CLS_ENABLE)
+    CLS_DESC
+    CLS_EP
+#endif
+*/
     /* Terminator */                                                                                            \
     0                                     /* bLength */                                                       \
 };
@@ -2208,7 +2216,12 @@ const U8 USBD_OtherSpeedConfigDescriptor[] = {
     MSC_DESC
     MSC_EP_HS
 #endif
-
+/* TODO: CLS_EP_HS
+#if (USBD_CLS_ENABLE)
+    CLS_DESC
+    CLS_EP
+#endif
+*/
     /* Terminator */
     0                                     /* bLength */
 };
@@ -2254,12 +2267,12 @@ const U8 USBD_OtherSpeedConfigDescriptor_HS[] = {
     HID_EP
 #endif
 #endif
-/*
+
 #if (USBD_MSC_ENABLE)
     MSC_DESC
     MSC_EP
 #endif
-*/
+
     /* Terminator */
     0                                     /* bLength */
 };
