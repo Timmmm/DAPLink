@@ -26,8 +26,12 @@
 #include "usb_for_lib.h"
 #include "util.h"
 #include "macro.h"
+#include "DAP_config.h"
+#include "DAP.h"
 
 U32 BulkLen;    /* Bulk In/Out Length */
+
+static uint8_t temp_buf                      [DAP_PACKET_SIZE];
 
 void usbd_cls_init()
 {
@@ -135,7 +139,8 @@ void USBD_CLS_BulkIn(void)
 
 void USBD_CLS_BulkOut(void)
 {
-
+	U32 len = DAP_ProcessCommand(USBD_CLS_BulkBuf, temp_buf);
+	USBD_WriteEP(usbd_cls_ep_bulkin | 0x80, temp_buf, len); // Or does this go in USBD_CLS_BulkIn??
 }
 
 /*
@@ -158,6 +163,7 @@ void USBD_CLS_EP_BULKIN_Event(U32 event)
 
 void USBD_CLS_EP_BULKOUT_Event(U32 event)
 {
+	// This is data being sent to us.
 	BulkLen = USBD_ReadEP(usbd_cls_ep_bulkout, USBD_CLS_BulkBuf, USBD_CLS_BulkBufSize);
 	USBD_CLS_BulkOut();
 }
