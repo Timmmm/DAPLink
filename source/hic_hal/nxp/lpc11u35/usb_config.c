@@ -47,7 +47,7 @@
 //       <i> Device release number in binary-coded decimal (bcdDevice)
 //   </h>
 #define USBD_POWER                  0
-#define USBD_MAX_PACKET0            8
+#define USBD_MAX_PACKET0            64
 #define USBD_DEVDESC_IDVENDOR       0x0D28
 #define USBD_DEVDESC_IDPRODUCT      0x0204
 #define USBD_DEVDESC_BCDDEVICE      0x0100
